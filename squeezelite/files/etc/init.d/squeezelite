@@ -1,0 +1,57 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=1
+
+mkcmdline() {
+	config_load squeezelite
+
+	local name
+	config_get name options name
+
+	local device
+	config_get device options device
+
+	local aparams
+	config_get aparams options alsa_params
+
+	local dec
+	config_get dec options decode_flac
+	if [ "$dec" = 1 ]
+	then
+		dec=" -c pcm,flac"
+	else
+		dec=" -c pcm"
+	fi
+
+	local dop
+	config_get dop options dsd_over_pcm
+	if [ "$dop" = 1 ]
+	then
+		dop=" -D 1"
+	else
+		dop=""
+	fi
+
+	local ird
+	config_get ird options ircontrol
+	if [ "$ird" = 0 ]
+	then
+		ird=""
+	else
+		ird=" -i $ird"
+	fi
+	
+
+	local cmdline="-z -n $name -o $device $dec $dop -a $aparams $ird"
+	echo "$cmdline"
+}
+
+start() {
+	local cmdline=`mkcmdline`
+	service_start /usr/bin/squeezelite $cmdline
+}
+
+stop() {
+	service_stop /usr/bin/squeezelite
+}

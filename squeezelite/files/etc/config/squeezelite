@@ -1,0 +1,8 @@
+
+config options 'options'
+	option name 'SqueezeWRT'
+	option alsa_params '200:::'
+	option device 'hw:0,0'
+	option decode_flac '0'
+	option dsd_over_pcm '0'
+	option ircontrol '0'
