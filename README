@@ -4,9 +4,28 @@ squeezewrt
 OpenWRT feed to port Adrian Smith't squeezelite to OpenWRT based devices
 
 To compile it you need: 
-- Install OpenWRT Buildroot as described in 
-    http://wiki.openwrt.org/doc/howto/buildroot.exigence
-- Create a copy of the file ./build-directory/feeds.conf.default named ./build-directory/feeds.conf, edit feeds.conf and add 
-    src-git squeezewrt https://github.com/squeezewrt/squeezewrt.git
-  at the end
-- 
+-   Install OpenWRT Buildroot as described in 
+        http://wiki.openwrt.org/doc/howto/buildroot.exigence
+-   Create a copy of the file 
+        ./build-directory/feeds.conf.default
+    named
+        ./build-directory/feeds.conf
+    Еdit feeds.conf and add 
+        src-git squeezewrt https://github.com/squeezewrt/squeezewrt.git
+    at the end
+-   Execute again
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+-   Configure OpenWRT firmware image you want to obtain as described in
+        http://wiki.openwrt.org/doc/howto/build
+-   To add squeezelite to OpenWRT firmware image execute
+        make menuconfig
+    and select
+        Multimedia  --->
+            <*> squeezelite
+- If you intend to use the LuCI web interface, select
+        LuCI  --->
+            3. Applications  --->
+                <*> luci-app-squeezelite
+-   Compile OpenWRT firmware image you want to obtain as described in
+        http://wiki.openwrt.org/doc/howto/build
