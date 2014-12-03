@@ -20,6 +20,11 @@ define Package/$(PKG_NAME)
 	TITLE:=Headless squeezebox emulator for linux/osx/windows
 	MAINTAINER:=Me, Myself & I :)
 	DEPENDS:= +alsa-lib +kmod-usb-audio +kmod-usb-hid
+	MENU:=1
+endef
+
+define Package/$(PKG_NAME)/config
+	source "$(SOURCE)/Config.in"
 endef
 
 define Package/$(PKG_NAME)/description
