@@ -1,13 +1,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=squeezelite
-PKG_VERSION:=1.6.5+
-PKG_RELEASE=1.2
+PKG_VERSION:=1.7+
+PKG_RELEASE=1.3
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://code.google.com/p/squeezelite/
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=1bcddea0adb1a4dc6a96b46b30571867aa529b9a
+PKG_SOURCE_VERSION:=a2de5cd3a634ee5b48d2f8f191dfec483559a8ec
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 PKG_BUILD_DEPENDS:=alsa-lib libflac libmad libvorbis libfaad2
 

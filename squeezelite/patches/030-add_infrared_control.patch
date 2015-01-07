@@ -264,8 +264,8 @@
  
  	while (optind < argc && strlen(argv[optind]) >= 2 && argv[optind][0] == '-') {
  		char *opt = argv[optind] + 1;
--		if (strstr("oabcdefmnNprs", opt) && optind < argc - 1) {
-+		if (strstr("oabcdefmnNprs"
+-		if (strstr("oabcdefmMnNpPrs", opt) && optind < argc - 1) {
++		if (strstr("oabcdefmMnNpPrs"
 +#ifdef IRCONTROL
 +						  "i"
 +#endif
@@ -287,7 +287,7 @@
  		case 'e':
  			exclude_codecs = optarg;
  			break;
--        case 'd':
+-		case 'd':
 +		case 'd':
  			{
  				char *l = strtok(optarg, "=");
@@ -318,14 +318,14 @@
  			license();
  			exit(0);
 @@ -482,8 +511,16 @@ int main(int argc, char **argv) {
- 		exit(0);
- 	}
+		exit(1);
+	}
  
 +#ifdef IRCONTROL
 +	ircontrol_init(infrared_control_device, log_ircontrol);
 +#endif // IRCONTROL
 +
- 	slimproto(log_slimproto, server, mac, name, namefile);
+ 	slimproto(log_slimproto, server, mac, name, namefile, modelname);
 -	
 +
 +#ifdef IRCONTROL
@@ -415,23 +415,6 @@
  	char  opcode[4];
 --- a/squeezelite.h
 +++ b/squeezelite.h
-@@ -1,13 +1,13 @@
--/* 
-+/*
-  *  Squeezelite - lightweight headless squeezebox emulator
-  *
-  *  (c) Adrian Smith 2012-2014, triode1@btinternet.com
-- *  
-+ *
-  * This program is free software: you can redistribute it and/or modify
-  * it under the terms of the GNU General Public License as published by
-  * the Free Software Foundation, either version 3 of the License, or
-  * (at your option) any later version.
-- * 
-+ *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 @@ -627,3 +627,21 @@ struct codec *register_vorbis(void);
  struct codec *register_faad(void);
  struct codec *register_dsd(void);
