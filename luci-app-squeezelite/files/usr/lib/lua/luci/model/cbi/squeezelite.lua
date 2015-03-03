@@ -32,6 +32,8 @@ m.on_after_commit = function()
     luci.sys.call("/etc/init.d/squeezelite restart")
 end
 
+--------------------------------------------------------------------------------------
+
 local s = m:section(NamedSection, "options", "options", "Base options")
 s.addremove = false
 s.anonymous = true
@@ -219,12 +221,61 @@ dop.default = 0
 
 s:tab("remote", "Remote control")
 
-
 local ir = FlagIfFileExists("remote", s, "ls /etc/init.d/lircd", "ircontrol", "Use LIRC", "Enable LIRC remote control support", "No LIRC daemon found")
 if ir ~= nil then
     ir.optional = false
     ir.default = 1
 end
+
+local irc = s:taboption("remote", Value, "lirc_voldown", "Vol -", "Volume down command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_VOLUMEDOWN"
+
+local irc = s:taboption("remote", Value, "lirc_volup", "Vol +", "Volume up command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_VOLUMEUP"
+
+local irc = s:taboption("remote", Value, "lirc_rew", "Prev", "Previous track command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_PREVIOUSSONG"
+
+local irc = s:taboption("remote", Value, "lirc_fwd", "Next", "Next track command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_NEXTSONG"
+
+local irc = s:taboption("remote", Value, "lirc_pause", "Pause", "Pause playback command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_PLAYPAUSE"
+
+local irc = s:taboption("remote", Value, "lirc_play", "Play", "Start playback command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_PLAYPAUSE"
+
+local irc = s:taboption("remote", Value, "lirc_power", "Power", "Power toggle command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_POWER"
+
+local irc = s:taboption("remote", Value, "lirc_muting", "Mute", "Mute / unmute playback command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_MUTE"
+
+local irc = s:taboption("remote", Value, "lirc_power_on", "Power On", "Power on command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_POWER"
+
+local irc = s:taboption("remote", Value, "lirc_power_off", "Power Off", "Power off command")
+irc:depends("ircontrol", 1)
+irc.optional = false
+irc.default = "KEY_POWER"
 
 --------------------------------------------------------------------------------------
 

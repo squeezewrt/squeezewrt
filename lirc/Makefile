@@ -66,10 +66,6 @@ CONFIGURE_ARGS += \
 
 TARGET_CFLAGS += -fPIC -O2
 
-#MAKE_FLAGS += \
-#	DESTDIR="$(PKG_INSTALL_DIR)" \
-#	SUBDIRS="daemons tools"
-
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/lirc $(1)/usr/include/

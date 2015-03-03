@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=squeezelite
-PKG_VERSION:=1.8
-PKG_RELEASE=1.4
+PKG_VERSION:=1.8.1
+PKG_RELEASE=1.5
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://code.google.com/p/squeezelite/
@@ -45,8 +45,6 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_BIN) ./files/etc/init.d/squeezelite $(1)/etc/init.d/squeezelite
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/etc/config/squeezelite $(1)/etc/config/squeezelite
-	$(INSTALL_DIR) $(1)/etc/lirc
-	$(INSTALL_CONF) ./files/etc/lirc/squeezelite.lircrc $(1)/etc/lirc/squeezelite.lircrc
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
