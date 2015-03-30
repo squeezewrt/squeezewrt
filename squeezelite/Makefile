@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=squeezelite
-PKG_VERSION:=1.8.1
-PKG_RELEASE=1.5
+PKG_VERSION:=1.8.2
+PKG_RELEASE=1.6
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://code.google.com/p/squeezelite/
@@ -15,8 +15,8 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
 
 define Package/$(PKG_NAME)
-	SECTION:=multimedia
-	CATEGORY:=Multimedia
+	SECTION:=sound
+	CATEGORY:=Sound
 	TITLE:=Headless squeezebox emulator for linux/osx/windows
 	MAINTAINER:=Me, Myself & I :)
 	DEPENDS:= +alsa-lib +kmod-usb-audio
