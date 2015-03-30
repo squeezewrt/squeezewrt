@@ -21,7 +21,7 @@ To compile it you need:
 -   To add squeezelite to OpenWRT firmware image execute
         make menuconfig
     and select
-        Multimedia  --->
+        Sound  --->
             <*> squeezelite
 - If you intend to use the LuCI web interface, select
         LuCI  --->
