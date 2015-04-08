@@ -14,6 +14,22 @@ mklirccmd() {
 	echo "end"
 }
 
+mkcodeccmd() {
+	local codec
+	config_get codec options "$1" 0
+	if [ $codec -eq 0 ]
+	then
+		if [ -z "$3" ]
+		then
+			echo "-e $2"
+		else
+			echo "$3,$2"
+		fi
+	else
+		echo "$3"
+	fi
+}
+
 mkcmdline() {
 	config_load squeezelite
 
@@ -118,45 +134,12 @@ mkcmdline() {
 		specific_devopen="-a 200:::"
 	fi
 
-	local codecs
-	codecs="-c pcm"
-	local codec
-
-	config_get codec options decode_flac 0
-	if [ $codec -eq 1 ]
-	then
-		codecs="$codecs,flac"
-	fi
-
-	config_get codec options decode_mp3 0
-	if [ $codec -eq 1 ]
-	then
-		codecs="$codecs,mp3"
-	fi
-
-	config_get codec options decode_aac 0
-	if [ $codec -eq 1 ]
-	then
-		codecs="$codecs,aac"
-	fi
-
-	config_get codec options decode_ogg 0
-	if [ $codec -eq 1 ]
-	then
-		codecs="$codecs,ogg"
-	fi
-
-	config_get codec options decode_wma_alac 0
-	if [ $codec -eq 1 ]
-	then
-		codecs="$codecs,wma,alac"
-	fi
-
-	config_get codec options dsd_over_pcm 0
-	if [ $codec -eq 1 ]
-	then
-		codecs="$codecs,dsd"
-	fi
+	local codecs=""
+	codecs=`mkcodeccmd decode_flac flac "$codecs"`
+	codecs=`mkcodeccmd decode_mp3 mp3 "$codecs"`
+	codecs=`mkcodeccmd decode_aac aac "$codecs"`
+	codecs=`mkcodeccmd decode_ogg ogg "$codecs"`
+	codecs=`mkcodeccmd decode_wma_alac wma,alac "$codecs"`
 
 	local dop
 	config_get dop options dsd_over_pcm 0
@@ -182,7 +165,7 @@ mkcmdline() {
 		echo "$cmd" >> /tmp/squeezelite.lircrc
 		cmd=`mklirccmd lirc_pause KEY_PLAYPAUSE pause`
 		echo "$cmd" >> /tmp/squeezelite.lircrc
-		cmd=`mklirccmd lirc_play KEY_PLAYPAUSE play`
+		cmd=`mklirccmd lirc_play KEY_PLAY play`
 		echo "$cmd" >> /tmp/squeezelite.lircrc
 		cmd=`mklirccmd lirc_muting KEY_MUTE muting`
 		echo "$cmd" >> /tmp/squeezelite.lircrc
