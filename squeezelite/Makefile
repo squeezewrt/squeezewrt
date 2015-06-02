@@ -74,9 +74,11 @@ endef
 
 ifeq ($(CONFIG_SQUEEZELITE_LIRC),y)
     PKG_BUILD_DEPENDS+= lirc
+    DEPENDS+= +lirc
 endif
 ifeq ($(CONFIG_SQUEEZELITE_WMA),y)
     PKG_BUILD_DEPENDS+= libffmpeg-mini
+    DEPENDS+= +libffmpeg-mini
 endif
 
 define Package/$(PKG_NAME)/description
