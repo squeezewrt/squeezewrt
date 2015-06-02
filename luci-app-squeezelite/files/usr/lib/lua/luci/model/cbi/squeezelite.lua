@@ -255,7 +255,7 @@ irc.default = "KEY_PLAYPAUSE"
 local irc = s:taboption("remote", Value, "lirc_play", "Play", "Start playback command")
 irc:depends("ircontrol", 1)
 irc.optional = false
-irc.default = "KEY_PLAYPAUSE"
+irc.default = "KEY_PLAY"
 
 local irc = s:taboption("remote", Value, "lirc_power", "Power", "Power toggle command")
 irc:depends("ircontrol", 1)
