@@ -16,6 +16,8 @@ To compile it you need:
 -   Execute again
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        ./scripts/feeds uninstall squeezelite
+        ./scripts/feeds install -p squeezewrt squeezelite
 -   Configure OpenWRT firmware image you want to obtain as described in
         http://wiki.openwrt.org/doc/howto/build
 -   To add squeezelite to OpenWRT firmware image execute
