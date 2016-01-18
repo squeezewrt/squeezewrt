@@ -24,6 +24,7 @@ define Package/lirc
 	CATEGORY:=Utilities
 	TITLE:=LIRC - Linux Infrared Remote Control
 	URL:=http://www.lirc.org/
+	DEPENDS:=+libstdcpp
 endef
 
 define Package/lirc/description
@@ -42,22 +43,29 @@ define Build/Configure
 	$(call Build/Configure/Default,$(CONFIGURE_ARGS))
 endef
 
+define Build/Install
+	$(MAKE) $(MAKE_FLAGS) -C $(PKG_BUILD_DIR) install DESTDIR=$(PKG_INSTALL_DIR)
+endef
+
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/lirc $(1)/usr/include/
 	$(INSTALL_DIR) $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc.{so*,la} $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_driver.{so*,la} $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_client.{so*,la} $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libirrecord.{so*,la} $(1)/usr/lib/
 endef
 
 define Package/lirc/install
 	$(INSTALL_DIR) $(1)/etc/lirc/
-	$(INSTALL_CONF) ./files/etc/lirc/lircd.conf $(1)/etc/lirc/
 	$(INSTALL_DIR) $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc.{la,so*} $(1)/usr/lib/
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_driver.{la,so*} $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_client.{la,so*} $(1)/usr/lib/
 	$(INSTALL_DIR) $(1)/usr/sbin/
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/lircd $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_BIN) ./files/etc/init.d/lircd $(1)/etc/init.d/lircd
 endef
 
 $(eval $(call BuildPackage,lirc))
