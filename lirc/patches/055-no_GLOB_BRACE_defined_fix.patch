@@ -1,5 +1,5 @@
---- a/tools/lirc-lsremotes.c
-+++ b/tools/lirc-lsremotes.c
+--- a/tools/lirc-lsremotes.cpp
++++ b/tools/lirc-lsremotes.cpp
 @@ -18,6 +18,10 @@
  
  

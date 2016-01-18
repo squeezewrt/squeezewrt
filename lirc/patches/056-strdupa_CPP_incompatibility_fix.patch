@@ -1,0 +1,13 @@
+--- a/tools/irexec.cpp
++++ b/tools/irexec.cpp
+@@ -30,6 +30,10 @@
+ #include "lirc_client.h"
+ #include "lirc_log.h"
+ 
++#ifdef strdupa
++# undef strdupa
++# define strdupa(x) strcpy((char*)alloca(strlen(x)+1),x)
++#endif
+ 
+ static const char* const USAGE =
+ 	"Usage: irexec [options] [lircrc config_file]\n"

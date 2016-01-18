@@ -8,13 +8,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lirc
-PKG_VERSION:=0.9.2
+PKG_VERSION:=0.9.3a
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=git://lirc.git.sourceforge.net/gitroot/lirc/lirc
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=7e9d14378a0010e24583d3c9f3b8ae5820edac0e
+PKG_SOURCE_VERSION:=94126b52ef4e493218cda5de3c3957a9ce9cf480
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
 
 include $(INCLUDE_DIR)/package.mk
@@ -35,11 +35,11 @@ CONFIGURE_ARGS += \
 	--without-x \
 	--disable-static \
 
-#TARGET_CFLAGS += -fPIC -O2
+DESTDIR = $(PKG_INSTALL_DIR)
 
 define Build/Configure
 	(cd $(PKG_BUILD_DIR); ./autogen.sh );
-	$(call Build/Configure/Default)
+	$(call Build/Configure/Default,$(CONFIGURE_ARGS))
 endef
 
 define Build/InstallDev
