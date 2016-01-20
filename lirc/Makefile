@@ -71,7 +71,7 @@ define Package/lirc/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/lircd $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(INSTALL_DIR) $(1)/var/run/lirc
+	$(INSTALL_DIR) $(1)/tmp/run/lirc
 endef
 
 $(eval $(call BuildPackage,lirc))
