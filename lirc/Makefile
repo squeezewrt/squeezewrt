@@ -58,15 +58,20 @@ define Build/InstallDev
 endef
 
 define Package/lirc/install
-	$(INSTALL_DIR) $(1)/etc/lirc/
+	$(INSTALL_DIR) $(1)/etc/lirc
 	$(CP) ./files/etc/lirc/lirc_options.conf $(1)/etc/lirc/
-	$(INSTALL_DIR) $(1)/usr/lib/
+	$(CP) ./files/etc/lirc/lircd.conf $(1)/etc/lirc/
+	$(INSTALL_DIR) $(1)/etc/lirc/lircd.conf.d
+	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc.{la,so*} $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_driver.{la,so*} $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_client.{la,so*} $(1)/usr/lib/
-	$(INSTALL_DIR) $(1)/usr/sbin/
+	$(INSTALL_DIR) $(1)/usr/lib/lirc/plugins
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lirc/plugins/default.{la,so*} $(1)/usr/lib/lirc/plugins/
+	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/lircd $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/init.d
+	$(INSTALL_DIR) $(1)/var/run/lirc
 endef
 
 $(eval $(call BuildPackage,lirc))
