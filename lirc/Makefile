@@ -59,6 +59,7 @@ endef
 
 define Package/lirc/install
 	$(INSTALL_DIR) $(1)/etc/lirc/
+	$(CP) ./files/etc/lirc/lircd_options.conf $(1)/etc/lirc/
 	$(INSTALL_DIR) $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc.{la,so*} $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_driver.{la,so*} $(1)/usr/lib/
