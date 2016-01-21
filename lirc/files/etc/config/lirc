@@ -1,0 +1,5 @@
+
+config options 'lircd'
+	option enabled '1'
+	option driver 'devinput'
+	option device '/dev/input/event0'

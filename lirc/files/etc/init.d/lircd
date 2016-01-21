@@ -1,14 +1,44 @@
 #!/bin/sh /etc/rc.common
+# Copyright (C) 2015 OpenWrt.org
 
-# starts befor and stops after squeezelite
-START=98
-STOP=2
+START=99
+STOP=1
 
-start() {
-	mkdir -p /var/run/lirc
-	service_start /usr/sbin/lircd --driver=dev/input --device=/dev/input/event0 --pidfile /var/run/lirc/lircd.pid
+USE_PROCD=1
+PROG=/usr/sbin/lircd
+
+make_cmdline() {
+	cmdline=" --nodaemon --loglevel=5"
+
+	config_get driver lircd driver "devinput"
+	[ $driver -ne 0 ] && cmdline="$cmdline --driver=$driver"
+
+	config_get device options device 0
+	[ $device -ne 0 ] && cmdline="$cmdline --device=$device"
 }
 
-stop() {
-	service_stop /usr/sbin/lircd
+start_service() {
+	config_load lirc
+
+	config_get_bool enabled options 'enabled' 0
+	[ $enabled -eq 0 ] && return
+
+	# Build command params
+	make_cmdline
+
+	procd_open_instance
+	logger -t 'lircd' "$cmdline"
+	procd_set_param command "$PROG" $cmdline
+	procd_close_instance
+}
+
+# Wait for service to exit and release sockets
+reload_service() {
+	stop
+	sleep 2
+	start
+}
+
+restart() {
+	reload_service
 }
