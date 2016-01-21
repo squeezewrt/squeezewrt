@@ -72,9 +72,9 @@ define Package/lirc/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/lircd $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/init.d
-	$(CP) $./files/etc/init.d/lircd $(1)/etc/init.d/
+	$(INSTALL_BIN) ./files/etc/init.d/lircd $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/etc/config
-	$(CP) $./files/etc/config/lirc $(1)/etc/config/
+	$(INSTALL_CONF) ./files/etc/config/lirc $(1)/etc/config/
 endef
 
 $(eval $(call BuildPackage,lirc))
