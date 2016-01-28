@@ -23,6 +23,11 @@ start_service() {
 	config_get_bool enabled lircd 'enabled' 0
 	[ $enabled -eq 0 ] && return
 
+	# Create directory for socket and pid
+	[ -d /var/run/lirc ] || {
+		mkdir -m 0777 -p /var/run/lirc
+	}
+
 	# Build command params
 	make_cmdline
 
