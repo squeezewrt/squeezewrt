@@ -68,6 +68,17 @@ This package contains LIRC driver for various devices that send keystrokes
 
 endef
 
+define Package/lirc-drv-default
+	$(call Package/lirc/Default)
+	DEPENDS+= lirc
+	TITLE:=Default driver
+endef
+
+define Package/lirc-drv-default/description
+This package contains LIRC default driver
+
+endef
+
 CONFIGURE_ARGS += \
 	--without-x \
 	--disable-static \
@@ -121,6 +132,14 @@ define Package/lirc-drv-devinput/install
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lirc/plugins/devinput.{la,so*} $(1)/usr/lib/lirc/plugins/
 endef
 
+define Package/lirc-drv-default/install
+	$(INSTALL_DIR) $(1)/etc/lirc/lircd.conf.d
+#	$(CP) ./files/etc/lirc/lircd.conf.d/devinput.conf $(1)/etc/lirc/lircd.conf.d/
+	$(INSTALL_DIR) $(1)/usr/lib/lirc/plugins
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lirc/plugins/default.{la,so*} $(1)/usr/lib/lirc/plugins/
+endef
+
 $(eval $(call BuildPackage,lirc))
 $(eval $(call BuildPackage,lirc-tools))
 $(eval $(call BuildPackage,lirc-drv-devinput))
+$(eval $(call BuildPackage,lirc-drv-default))
