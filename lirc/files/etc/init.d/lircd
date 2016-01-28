@@ -6,6 +6,7 @@ STOP=2
 
 USE_PROCD=1
 PROG=/usr/sbin/lircd
+RUNDIR="/var/run/lirc"
 
 make_cmdline() {
 	cmdline=" --nodaemon --loglevel=5"
@@ -24,9 +25,8 @@ start_service() {
 	[ $enabled -eq 0 ] && return
 
 	# Create directory for socket and pid
-	[ -d /var/run/lirc ] || {
-		mkdir -m 0777 -p /var/run/lirc
-	}
+	rm -rf "$RUNDIR"
+	mkdir -m 0777 -p "$RUNDIR"
 
 	# Build command params
 	make_cmdline
@@ -35,6 +35,11 @@ start_service() {
 	logger -t 'lircd' "$cmdline"
 	procd_set_param command "$PROG" $cmdline
 	procd_close_instance
+}
+
+# Remove directory in /var/run
+stop_service() {
+	rm -rf "$RUNDIR"
 }
 
 # Wait for service to exit and release sockets
