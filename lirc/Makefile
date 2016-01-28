@@ -75,6 +75,8 @@ define Package/lirc/install
 	$(INSTALL_BIN) ./files/etc/init.d/lircd $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/etc/config/lirc $(1)/etc/config/
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/irw $(1)/usr/bin/
 endef
 
 $(eval $(call BuildPackage,lirc))

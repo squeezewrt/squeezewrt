@@ -10,11 +10,11 @@ PROG=/usr/sbin/lircd
 make_cmdline() {
 	cmdline=" --nodaemon --loglevel=5"
 
-	config_get driver lircd 'driver' "devinput"
-	[ $driver -ne "" ] && cmdline="$cmdline --driver=$driver"
+	config_get driver lircd driver "devinput"
+	cmdline="$cmdline --driver=$driver"
 
-	config_get device options 'device' 0
-	[ $device -ne 0 ] && cmdline="$cmdline --device=$device"
+	config_get device lircd device "/dev/input/event0"
+	cmdline="$cmdline --device=$device"
 }
 
 start_service() {
