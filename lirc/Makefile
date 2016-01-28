@@ -19,17 +19,53 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/lirc
+define Package/lirc/Default
 	SECTION:=utils
 	CATEGORY:=Utilities
-	TITLE:=LIRC - Linux Infrared Remote Control
 	URL:=http://www.lirc.org/
-	DEPENDS:=+libstdcpp
+	DEPENDS:= +libstdcpp
+endef
+
+define Package/lirc
+	$(call Package/lirc/Default)
+	TITLE:=LIRC - Linux Infrared Remote Control
+	MENU:=1
 endef
 
 define Package/lirc/description
-	LIRC is a package that allows you to decode and send infra-red signals of many
-	(but not all) commonly used remote controls.
+LIRC is a package that allows you to decode and send
+infra-red signals of many (but not all) commonly used
+remote controls.
+
+This package contains only lircd.
+You must select one or more IR device drivers.
+
+tested drivers:
+	devinput
+
+endef
+
+define Package/lirc-tools
+	$(call Package/lirc/Default)
+	DEPENDS+= lirc
+	TITLE:=LIRC tools
+endef
+
+define Package/lirc-tools/description
+This package contains those lirc-tools:
+-irw:     watch the codes as lircd recognize them.
+
+endef
+
+define Package/lirc-drv-devinput
+	$(call Package/lirc/Default)
+	DEPENDS+= lirc +kmod-hid
+	TITLE:=Devinput driver
+endef
+
+define Package/lirc-drv-devinput/description
+This package contains LIRC driver for various devices that send keystrokes
+
 endef
 
 CONFIGURE_ARGS += \
@@ -61,22 +97,30 @@ define Package/lirc/install
 	$(INSTALL_DIR) $(1)/etc/lirc
 	$(CP) ./files/etc/lirc/lirc_options.conf $(1)/etc/lirc/
 	$(CP) ./files/etc/lirc/lircd.conf $(1)/etc/lirc/
-	$(INSTALL_DIR) $(1)/etc/lirc/lircd.conf.d
-	$(CP) ./files/etc/lirc/lircd.conf.d/devinput.conf $(1)/etc/lirc/lircd.conf.d/
 	$(INSTALL_DIR) $(1)/usr/lib
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc.{la,so*} $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_driver.{la,so*} $(1)/usr/lib/
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/liblirc_client.{la,so*} $(1)/usr/lib/
-	$(INSTALL_DIR) $(1)/usr/lib/lirc/plugins
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lirc/plugins/devinput.{la,so*} $(1)/usr/lib/lirc/plugins/
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/lircd $(1)/usr/sbin/
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/etc/init.d/lircd $(1)/etc/init.d/
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/etc/config/lirc $(1)/etc/config/
+endef
+
+define Package/lirc-tools/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/irw $(1)/usr/bin/
 endef
 
+define Package/lirc-drv-devinput/install
+	$(INSTALL_DIR) $(1)/etc/lirc/lircd.conf.d
+	$(CP) ./files/etc/lirc/lircd.conf.d/devinput.conf $(1)/etc/lirc/lircd.conf.d/
+	$(INSTALL_DIR) $(1)/usr/lib/lirc/plugins
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/lirc/plugins/devinput.{la,so*} $(1)/usr/lib/lirc/plugins/
+endef
+
 $(eval $(call BuildPackage,lirc))
+$(eval $(call BuildPackage,lirc-tools))
+$(eval $(call BuildPackage,lirc-drv-devinput))
